@@ -47,6 +47,35 @@ public class Demo {
 
 ---
 
+## 📑 Table of Contents
+
+- [Why FastAIVision?](#why-fastaivision)
+- [Key Features](#key-features)
+- [Real-World Scenarios](#real-world-scenarios)
+- [Performance Benchmarks](#performance-benchmarks)
+- [API Quick Reference](#api-quick-reference)
+- [Technical Examples & Hero Demos](#technical-examples--hero-demos)
+- [Installation](#installation)
+- [Documentation](#documentation)
+- [License](#license)
+
+---
+
+## Why FastAIVision?
+
+> [!IMPORTANT]
+> **"Sub-Millisecond Coordinate Grounding Over DOM Traversal. Zero-Copy Tensors Over JVM Image Churn."**
+
+Standard desktop automation tools rely on brittle accessibility trees (UIA/DOM) or heavyweight OCR frameworks that fail on dynamic canvas elements and custom game/desktop widgets.
+
+`FastAIVision` transforms lightweight Vision-Language Models (**Qwen2-VL**, **SmolVLM**) into ultra-low-latency desktop grounding sensors:
+
+1. **Deterministic Bounding Box Extraction**: Directly translates VLM token streams into normalized screen coordinates using zero-allocation `FastRegex` scanners.
+2. **Sub-Pixel Precision**: Maps floating-point model bounding boxes to arbitrary monitor resolutions and multi-DPI desktop coordinates.
+3. **Zero-Copy Tensor Normalization**: Converts raw desktop frames into normalized float arrays directly consumable by ONNX/DirectML runtimes without intermediate AWT image conversions.
+
+---
+
 ## Key Features
 
 - **👁️ Multimodal UI-Grounding** — Direct coordinate parsing for Qwen2-VL-2B (`[ymin, xmin, ymax, xmax]`) and SmolVLM-2B (`<box>(...)</box>`).
