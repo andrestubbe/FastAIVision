@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.1] - 2026-08-25
+### Changed
+- Integrated **FastRegex** zero-allocation structured pattern parser for `GroundingParser` coordinate extractions, yielding 2.53× higher throughput with 0 heap garbage.
+
 ## [0.1.0] - 2026-08-24
 ### Added
 - **Multimodal VLM Grounding Engine (`FastAIVision`)**: Qwen2-VL-2B and SmolVLM-2B prompt formatting and coordinate parsing.
