@@ -1,4 +1,4 @@
-# FastAIVision 0.1.1 [ALPHA] â€” Multimodal Vision, UI-Element Grounding & Screen-VLM Engine
+# FastAIVision 0.1.1 [ALPHA] — Multimodal Vision, UI-Element Grounding & Screen-VLM Engine
 
 [![Status](https://img.shields.io/badge/status-0.1.1-brightgreen.svg)](https://github.com/andrestubbe/FastAIVision/releases/tag/0.1.1)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -8,7 +8,7 @@
 
 ---
 
-**âš¡ High-speed local multimodal vision, UI-element grounding, zero-copy image preprocessing, and `.visionbin` binary streaming engine for Java.**
+**⚡ High-speed local multimodal vision, UI-element grounding, zero-copy image preprocessing, and `.visionbin` binary streaming engine for Java.**
 
 **FastAIVision** connects compact Vision-Language Models (**Qwen2-VL-2B**, **SmolVLM-2B**) with autonomous desktop GUI agents (`FastAIAgent`, `FastRobot`). It transforms raw desktop screenshots into structured, normalized bounding-box coordinates for buttons, inputs, icons, and menus with sub-millisecond parsing and FastFileFormat binary persistence.
 
@@ -47,7 +47,7 @@ public class Demo {
 
 ---
 
-## ðŸ“‘ Table of Contents
+## 📑 Table of Contents
 
 - [Why FastAIVision?](#why-fastaivision)
 - [Key Features](#key-features)
@@ -57,6 +57,7 @@ public class Demo {
 - [Technical Examples & Hero Demos](#technical-examples--hero-demos)
 - [Installation](#installation)
 - [Documentation](#documentation)
+- [Platform Support](#platform-support)
 - [License](#license)
 
 ---
@@ -78,20 +79,20 @@ Standard desktop automation tools rely on brittle accessibility trees (UIA/DOM) 
 
 ## Key Features
 
-- **ðŸ‘ï¸ Multimodal UI-Grounding** â€” Direct coordinate parsing for Qwen2-VL-2B (`[ymin, xmin, ymax, xmax]`) and SmolVLM-2B (`<box>(...)</box>`).
-- **ðŸŽ¯ Coordinate Space Translation** â€” Normalized bounding box space (0.0 to 1.0) with instant screen resolution pixel mapping.
-- **âš¡ Zero-Copy Tensor Preprocessing** â€” High-speed RGB buffer extraction for direct ONNX/DirectML and GGUF matrix feeding.
-- **ðŸ“¦ FastFileFormat `.visionbin` Compression** â€” High-density binary persistence for vision recognition snapshots (Payload ID `0x0006`).
-- **ðŸ¤– Autonomous Agent Synergy** â€” Direct integration with `FastAIAgent`, `FastRobot`, `FastScreen`, and `FastAIState`.
+- **👁️ Multimodal UI-Grounding** — Direct coordinate parsing for Qwen2-VL-2B (`[ymin, xmin, ymax, xmax]`) and SmolVLM-2B (`<box>(...)</box>`).
+- **🎯 Coordinate Space Translation** — Normalized bounding box space (0.0 to 1.0) with instant screen resolution pixel mapping.
+- **⚡ Zero-Copy Tensor Preprocessing** — High-speed RGB buffer extraction for direct ONNX/DirectML and GGUF matrix feeding.
+- **📦 FastFileFormat `.visionbin` Compression** — High-density binary persistence for vision recognition snapshots (Payload ID `0x0006`).
+- **🤖 Autonomous Agent Synergy** — Direct integration with `FastAIAgent`, `FastRobot`, `FastScreen`, and `FastAIState`.
 
 ---
 
 ## Real-World Scenarios
 
-- **ðŸ¤– Autonomous GUI Navigation** â€” Empowering AI agents to click buttons and type into textboxes on desktop applications via vision alone.
-- **ðŸ“± Cross-Platform UI Testing** â€” Automated visual test assertions and responsive layout verification without brittle XPath/DOM selectors.
-- **ðŸ›¡ï¸ Visual Bot Detection & Verification** â€” Recognizing visual CAPTCHA elements and dynamic UI prompts in real-time.
-- **â™¿ Visual Accessibility Tools** â€” Real-time bounding-box screen narration and focus-target highlighting.
+- **🤖 Autonomous GUI Navigation** — Empowering AI agents to click buttons and type into textboxes on desktop applications via vision alone.
+- **📱 Cross-Platform UI Testing** — Automated visual test assertions and responsive layout verification without brittle XPath/DOM selectors.
+- **🛡️ Visual Bot Detection & Verification** — Recognizing visual CAPTCHA elements and dynamic UI prompts in real-time.
+- **♿ Visual Accessibility Tools** — Real-time bounding-box screen narration and focus-target highlighting.
 
 ---
 
@@ -186,10 +187,10 @@ dependencies {
 
 Download the latest JARs directly to add them to your classpath:
 
-1. ðŸ‘ï¸ **[FastAIVision-0.1.0.jar](https://github.com/andrestubbe/FastAIVision/releases/download/0.1.0/FastAIVision-0.1.0.jar)** (Multimodal Vision & UI Grounding Engine)
-2. ðŸ“„ **[FastFileFormat-0.1.0.jar](https://github.com/andrestubbe/FastFileFormat/releases/download/0.1.0/FastFileFormat-0.1.0.jar)** (Dual Binary & Text File Format)
-3. âš¡ **[FastBinary-0.1.0.jar](https://github.com/andrestubbe/FastBinary/releases/download/0.1.0/FastBinary-0.1.0.jar)** (VarInt & Binary Packing)
-4. âš™ï¸ **[fastcore-0.1.0.jar](https://github.com/andrestubbe/FastCore/releases/download/0.1.0/fastcore-0.1.0.jar)** (Foundation Library)
+1. 👁️ **[FastAIVision-0.1.0.jar](https://github.com/andrestubbe/FastAIVision/releases/download/0.1.0/FastAIVision-0.1.0.jar)** (Multimodal Vision & UI Grounding Engine)
+2. 📄 **[FastFileFormat-0.1.0.jar](https://github.com/andrestubbe/FastFileFormat/releases/download/0.1.0/FastFileFormat-0.1.0.jar)** (Dual Binary & Text File Format)
+3. ⚡ **[FastBinary-0.1.0.jar](https://github.com/andrestubbe/FastBinary/releases/download/0.1.0/FastBinary-0.1.0.jar)** (VarInt & Binary Packing)
+4. ⚙️ **[fastcore-0.1.0.jar](https://github.com/andrestubbe/FastCore/releases/download/0.1.0/fastcore-0.1.0.jar)** (Foundation Library)
 
 ---
 
@@ -221,12 +222,12 @@ MIT License. See [LICENSE](LICENSE) file for details.
 
 ## Related Projects
 
-- [FastAIModel](https://github.com/andrestubbe/FastAIModel) â€” Local ONNX & GGUF matrix inference runtime
-- [FastAIAgent](https://github.com/andrestubbe/FastAIAgent) â€” Autonomous agent logic, tools & planning
-- [FastRobot](https://github.com/andrestubbe/FastRobot) â€” Ultra-low latency native OS input automation
-- [FastScreen](https://github.com/andrestubbe/FastScreen) â€” High-speed desktop screen capture
-- [FastFileFormat](https://github.com/andrestubbe/FastFileFormat) â€” Universal dual-format binary & text document engine
+- [FastAIModel](https://github.com/andrestubbe/FastAIModel) — Local ONNX & GGUF matrix inference runtime
+- [FastAIAgent](https://github.com/andrestubbe/FastAIAgent) — Autonomous agent logic, tools & planning
+- [FastRobot](https://github.com/andrestubbe/FastRobot) — Ultra-low latency native OS input automation
+- [FastScreen](https://github.com/andrestubbe/FastScreen) — High-speed desktop screen capture
+- [FastFileFormat](https://github.com/andrestubbe/FastFileFormat) — Universal dual-format binary & text document engine
 
 ---
 
-**Part of the FastJava Ecosystem** â€” *Making the JVM faster. Small package. Maximum speed. Zero bloat. ðŸš€ðŸ“‹*
+**Part of the FastJava Ecosystem** — *Making the JVM faster. Small package. Maximum speed. Zero bloat. 🚀📋*
