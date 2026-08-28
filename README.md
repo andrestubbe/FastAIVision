@@ -1,6 +1,6 @@
-# FastAIVision 0.1.1 [ALPHA] — Multimodal Vision, UI-Element Grounding & Screen-VLM Engine
+# FastAIVision 0.1.2 [ALPHA] — Multimodal Vision, UI-Element Grounding & Screen-VLM Engine
 
-[![Status](https://img.shields.io/badge/status-0.1.1-brightgreen.svg)](https://github.com/andrestubbe/FastAIVision/releases/tag/0.1.1)
+[![Status](https://img.shields.io/badge/status-0.1.2-brightgreen.svg)](https://github.com/andrestubbe/FastAIVision/releases/tag/0.1.2)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Java](https://img.shields.io/badge/Java-17+-blue.svg)](https://www.java.com)
 [![Platform](https://img.shields.io/badge/Platform-Cross--Platform-lightgrey.svg)]()
@@ -148,17 +148,22 @@ FastAIVision is profiled using **JMH** to guarantee maximum parsing speed and ze
     <dependency>
         <groupId>com.github.andrestubbe</groupId>
         <artifactId>FastAIVision</artifactId>
-        <version>0.1.0</version>
+        <version>0.1.2</version>
     </dependency>
     <dependency>
         <groupId>com.github.andrestubbe</groupId>
         <artifactId>FastFileFormat</artifactId>
-        <version>0.1.0</version>
+        <version>0.1.1</version>
     </dependency>
     <dependency>
         <groupId>com.github.andrestubbe</groupId>
         <artifactId>FastBinary</artifactId>
-        <version>0.1.0</version>
+        <version>0.1.1</version>
+    </dependency>
+    <dependency>
+        <groupId>com.github.andrestubbe</groupId>
+        <artifactId>FastRegex</artifactId>
+        <version>0.1.1</version>
     </dependency>
     <dependency>
         <groupId>com.github.andrestubbe</groupId>
@@ -176,9 +181,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.andrestubbe:FastAIVision:0.1.0'
-    implementation 'com.github.andrestubbe:FastFileFormat:0.1.0'
-    implementation 'com.github.andrestubbe:FastBinary:0.1.0'
+    implementation 'com.github.andrestubbe:FastAIVision:0.1.2'
+    implementation 'com.github.andrestubbe:FastFileFormat:0.1.1'
+    implementation 'com.github.andrestubbe:FastBinary:0.1.1'
+    implementation 'com.github.andrestubbe:FastRegex:0.1.1'
     implementation 'com.github.andrestubbe:fastcore:0.1.0'
 }
 ```
@@ -187,9 +193,9 @@ dependencies {
 
 Download the latest JARs directly to add them to your classpath:
 
-1. 👁️ **[FastAIVision-0.1.0.jar](https://github.com/andrestubbe/FastAIVision/releases/download/0.1.0/FastAIVision-0.1.0.jar)** (Multimodal Vision & UI Grounding Engine)
-2. 📄 **[FastFileFormat-0.1.0.jar](https://github.com/andrestubbe/FastFileFormat/releases/download/0.1.0/FastFileFormat-0.1.0.jar)** (Dual Binary & Text File Format)
-3. ⚡ **[FastBinary-0.1.0.jar](https://github.com/andrestubbe/FastBinary/releases/download/0.1.0/FastBinary-0.1.0.jar)** (VarInt & Binary Packing)
+1. 👁️ **[FastAIVision-0.1.2.jar](https://github.com/andrestubbe/FastAIVision/releases/download/0.1.2/FastAIVision-0.1.2.jar)** (Multimodal Vision & UI Grounding Engine)
+2. 📄 **[FastFileFormat-0.1.1.jar](https://github.com/andrestubbe/FastFileFormat/releases/download/0.1.1/FastFileFormat-0.1.1.jar)** (Dual Binary & Text File Format)
+3. ⚡ **[FastBinary-0.1.1.jar](https://github.com/andrestubbe/FastBinary/releases/download/0.1.1/FastBinary-0.1.1.jar)** (VarInt & Binary Packing)
 4. ⚙️ **[fastcore-0.1.0.jar](https://github.com/andrestubbe/FastCore/releases/download/0.1.0/fastcore-0.1.0.jar)** (Foundation Library)
 
 ---
