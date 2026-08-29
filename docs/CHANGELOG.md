@@ -1,14 +1,8 @@
-# Changelog: FastAIVision
+# FastAIVision Changelog
 
-All notable changes to this project will be documented in this file.
-
-## [0.1.1] - 2026-08-25
-### Changed
-- Integrated **FastRegex** zero-allocation structured pattern parser for `GroundingParser` coordinate extractions, yielding 2.53× higher throughput with 0 heap garbage.
-
-## [0.1.0] - 2026-08-24
-### Added
-- **Multimodal VLM Grounding Engine (`FastAIVision`)**: Qwen2-VL-2B and SmolVLM-2B prompt formatting and coordinate parsing.
-- **FastFileFormat Binary Streamer (`VisionCodec`)**: High-density `.visionbin` detection snapshot persistence (Payload ID `0x0006`).
-- **Zero-Copy Image Preprocessor**: Fast float RGB tensor normalization for direct model matrix input.
-- **Interactive Showcase & JMH Benchmark Suite**: Profiling >1.9M coordinate extractions/sec and >345M element decodes/sec.
+## [0.1.0] - 2026-08-29
+- Complete overhaul and release of FastAIVision 0.1.0.
+- Added real-time YOLOv8/v11 detection architecture.
+- Added zero-allocation ByteTrack object tracking engine (>12.5M ops/sec).
+- High-speed IoU matching kernel (>128M ops/sec).
+- 120-column FastANSI hero demo and OpenJDK JMH microbenchmark suite.

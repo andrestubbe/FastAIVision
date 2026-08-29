@@ -1,20 +1,24 @@
-# FastAIVision API Reference
+# FastAIVision Reference & API Specification
 
-## Core Classes
+## 1. Core Vocabulary
 
-### 1. `fastaivision.FastAIVision`
-* `public static FastAIVision createQwen2VL()`: Creates Qwen2-VL grounding engine.
-* `public static FastAIVision createSmolVLM()`: Creates SmolVLM grounding engine.
-* `public String buildGroundingPrompt(String targetDescription)`: Formats grounding prompt template.
-* `public UIElement parseGroundingResponse(String targetLabel, String vlmResponse, UIElement.ElementType expectedType)`: Converts output text to `UIElement`.
-* `public float[] preprocessImage(BufferedImage image, int targetWidth, int targetHeight)`: Scales and normalizes screen image to float RGB tensor buffer.
+*   **Detection**: Single-frame classification and bounding box localization (e.g. YOLOv8, RF-DETR).
+*   **Tracking (ByteTrack)**: Persistent association of detections across continuous video frames using IoU overlap matching.
+*   **IoU (Intersection over Union)**: The geometric area of box overlap divided by total union area ($0.0$ to $1.0$).
+*   **Grounding**: Translating natural language requests into normalized 2D coordinate targets ($[x, y, w, h]$).
+*   **TrackedObject**: A stateful object maintaining continuous track ID, confidence history, age, and missed frames.
 
-### 2. `fastaivision.GroundingParser`
-* `public static BoundingBox extractFirstBoundingBox(String vlmOutput)`: Extracts normalized bounding box coordinates from arbitrary VLM response text.
-* `public static BoundingBox parseFrom1000Scale(int ymin, int xmin, int ymax, int xmax)`: Converts standard 0-1000 integer range coordinates to [0.0 - 1.0] normalized space.
+## 2. API Quick Reference
 
-### 3. `fastaivision.VisionCodec`
-* `public static byte[] encode(List<UIElement> elements)`: FastFileFormat binary serializer.
-* `public static List<UIElement> decode(byte[] bytes)`: FastFileFormat binary deserializer.
-* `public static void writeToFile(Path path, List<UIElement> elements)`: Writes elements directly to `.visionbin` file.
-* `public static List<UIElement> readFromFile(Path path)`: Reads elements directly from `.visionbin` file.
+### `ByteTracker`
+*   `ByteTracker(float iouThreshold, int maxMissingFrames)`: Instantiates a persistent multi-object tracker.
+*   `update(List<DetectedObject> detections)`: Ingests new detections and returns updated list of `TrackedObject`.
+*   `getActiveTracks()`: Returns currently tracked objects.
+
+### `BoundingBox`
+*   `centerX()` / `centerY()`: Computes normalized center coordinate.
+*   `getPixelCenterX(screenWidth)`: Computes actual pixel center coordinate on screen.
+*   `iou(BoundingBox other)`: Computes geometric Intersection-over-Union.
+
+---
+**Part of the FastJava Ecosystem** — *Making the JVM faster. Small package. Maximum speed. Zero bloat. 🚀📋*

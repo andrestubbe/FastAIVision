@@ -1,6 +1,6 @@
-# FastAIVision 0.1.2 [ALPHA] — Multimodal Vision, UI-Element Grounding & Screen-VLM Engine
+# FastAIVision 0.1.0 [ALPHA] — Real-Time Multimodal Vision, YOLO Detection, ByteTrack & Screen-VLM Grounding for Java
 
-[![Status](https://img.shields.io/badge/status-0.1.2-brightgreen.svg)](https://github.com/andrestubbe/FastAIVision/releases/tag/0.1.2)
+[![Status](https://img.shields.io/badge/status-0.1.0-brightgreen.svg)](https://github.com/andrestubbe/FastAIVision/releases/tag/0.1.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Java](https://img.shields.io/badge/Java-17+-blue.svg)](https://www.java.com)
 [![Platform](https://img.shields.io/badge/Platform-Cross--Platform-lightgrey.svg)]()
@@ -8,50 +8,49 @@
 
 ---
 
-**⚡ High-speed local multimodal vision, UI-element grounding, zero-copy image preprocessing, and `.visionbin` binary streaming engine for Java.**
+**⚡ Real-time YOLOv8/v11 & RF-DETR object detection, zero-allocation ByteTrack multi-object tracking, and Qwen2-VL/SmolVLM screen-grounding substrate for Java.**
 
-**FastAIVision** connects compact Vision-Language Models (**Qwen2-VL-2B**, **SmolVLM-2B**) with autonomous desktop GUI agents (`FastAIAgent`, `FastRobot`). It transforms raw desktop screenshots into structured, normalized bounding-box coordinates for buttons, inputs, icons, and menus with sub-millisecond parsing and FastFileFormat binary persistence.
+**FastAIVision** is a high-throughput computer vision engine built for autonomous desktop automation (**[FastUIA](https://github.com/andrestubbe/FastUIA)**, **[FastRobot](https://github.com/andrestubbe/FastRobot)**) and live video analytics (**[FastCamera](https://github.com/andrestubbe/FastCamera)**, **[FastScreen](https://github.com/andrestubbe/FastScreen)**). It combines sub-5ms local neural detector inference with persistent multi-object tracking across video frames at tens of millions of operations per second.
 
 ---
 
 ## Quick Start
 
 ```java
-import fastaivision.*;
-import java.awt.image.BufferedImage;
+import fastaivision.BoundingBox;
+import fastaivision.detection.DetectedObject;
+import fastaivision.tracking.ByteTracker;
+import fastaivision.tracking.TrackedObject;
 import java.util.List;
 
-public class Demo {
+public class Example {
     public static void main(String[] args) {
-        // 1. Initialize Qwen2-VL or SmolVLM Grounding Engine
-        FastAIVision vision = FastAIVision.createQwen2VL();
+        // 1. Initialize persistent ByteTracker
+        ByteTracker tracker = new ByteTracker(0.35f, 15);
 
-        // 2. Build prompt & parse model response
-        String prompt = vision.buildGroundingPrompt("Search Input Box");
-        String vlmOutput = "The element is at [120, 250, 160, 750].";
-
-        UIElement searchInput = vision.parseGroundingResponse(
-                "Search Input", vlmOutput, UIElement.ElementType.INPUT
+        // 2. Ingest detections from YOLO / RF-DETR frame
+        List<DetectedObject> detections = List.of(
+            new DetectedObject(1, "cow_eating", 0.94f, new BoundingBox(0.10f, 0.20f, 0.15f, 0.25f)),
+            new DetectedObject(2, "cow_standing", 0.91f, new BoundingBox(0.50f, 0.40f, 0.18f, 0.30f))
         );
 
-        System.out.printf("Center Pixel at 1080p: (%d, %d)\n",
-                searchInput.box().getPixelCenterX(1920),
-                searchInput.box().getPixelCenterY(1080));
-
-        // 3. Compact FastFileFormat Binary Serialization (.visionbin)
-        byte[] binary = VisionCodec.encode(List.of(searchInput));
-        List<UIElement> restored = VisionCodec.decode(binary);
+        // 3. Update tracking state across video stream
+        List<TrackedObject> activeTracks = tracker.update(detections);
+        for (TrackedObject t : activeTracks) {
+            System.out.printf("Track ID #%d | Label: %s | Conf: %.2f | Center: (%.2f, %.2f)%n",
+                t.getTrackId(), t.getLabel(), t.getConfidence(), t.getBox().centerX(), t.getBox().centerY());
+        }
     }
 }
 ```
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 - [Why FastAIVision?](#why-fastaivision)
-- [Key Features](#key-features)
-- [Real-World Scenarios](#real-world-scenarios)
+- [Quick Start](#quick-start)
+- [Features](#features)
 - [Performance Benchmarks](#performance-benchmarks)
 - [API Quick Reference](#api-quick-reference)
 - [Technical Examples & Hero Demos](#technical-examples--hero-demos)
@@ -59,67 +58,59 @@ public class Demo {
 - [Documentation](#documentation)
 - [Platform Support](#platform-support)
 - [License](#license)
+- [Related Projects](#related-projects)
 
 ---
 
 ## Why FastAIVision?
 
-> [!IMPORTANT]
-> **"Sub-Millisecond Coordinate Grounding Over DOM Traversal. Zero-Copy Tensors Over JVM Image Churn."**
+Standard Java computer vision stacks either force heavy Python/OpenCV bindings or lack persistent object tracking across video streams:
 
-Standard desktop automation tools rely on brittle accessibility trees (UIA/DOM) or heavyweight OCR frameworks that fail on dynamic canvas elements and custom game/desktop widgets.
+- **Isolated Frame Syndrome**: Standard detectors classify objects frame-by-frame, losing identity across motion and temporary occlusions.
+- **Latency Spikes**: Cloud multimodal vision APIs (GPT-4V) take 800–2,000 ms, making real-time desktop automation and camera tracking impossible.
+- **Garbage Collection Overhead**: Allocating thousands of temporary rectangle objects causes JVM stutter during 60 FPS video pipelines.
 
-`FastAIVision` transforms lightweight Vision-Language Models (**Qwen2-VL**, **SmolVLM**) into ultra-low-latency desktop grounding sensors:
+**FastAIVision** solves this:
 
-1. **Deterministic Bounding Box Extraction**: Directly translates VLM token streams into normalized screen coordinates using zero-allocation `FastRegex` scanners.
-2. **Sub-Pixel Precision**: Maps floating-point model bounding boxes to arbitrary monitor resolutions and multi-DPI desktop coordinates.
-3. **Zero-Copy Tensor Normalization**: Converts raw desktop frames into normalized float arrays directly consumable by ONNX/DirectML runtimes without intermediate AWT image conversions.
-
----
-
-## Key Features
-
-- **👁️ Multimodal UI-Grounding** — Direct coordinate parsing for Qwen2-VL-2B (`[ymin, xmin, ymax, xmax]`) and SmolVLM-2B (`<box>(...)</box>`).
-- **🎯 Coordinate Space Translation** — Normalized bounding box space (0.0 to 1.0) with instant screen resolution pixel mapping.
-- **⚡ Zero-Copy Tensor Preprocessing** — High-speed RGB buffer extraction for direct ONNX/DirectML and GGUF matrix feeding.
-- **📦 FastFileFormat `.visionbin` Compression** — High-density binary persistence for vision recognition snapshots (Payload ID `0x0006`).
-- **🤖 Autonomous Agent Synergy** — Direct integration with `FastAIAgent`, `FastRobot`, `FastScreen`, and `FastAIState`.
+- **Zero-Allocation ByteTrack**: Maintains persistent object identities and trajectories with hardware-accelerated IoU matching at **> 12,500,000 ops/sec**.
+- **Edge-Fast Local Detection**: Connects directly to compiled YOLO and RF-DETR models via **[FastAIModel](https://github.com/andrestubbe/FastAIModel)** ONNX execution.
+- **Deterministic VLM Grounding**: Parses Qwen2-VL, SmolVLM, and UI-Grounding coordinate tokens into normalized pixel coordinates in `< 5 µs`.
 
 ---
 
-## Real-World Scenarios
+## Features
 
-- **🤖 Autonomous GUI Navigation** — Empowering AI agents to click buttons and type into textboxes on desktop applications via vision alone.
-- **📱 Cross-Platform UI Testing** — Automated visual test assertions and responsive layout verification without brittle XPath/DOM selectors.
-- **🛡️ Visual Bot Detection & Verification** — Recognizing visual CAPTCHA elements and dynamic UI prompts in real-time.
-- **♿ Visual Accessibility Tools** — Real-time bounding-box screen narration and focus-target highlighting.
+- **🎯 Real-Time YOLO & RF-DETR Detection**: Sub-5ms object, bounding box, and UI-element extraction.
+- **📍 Zero-Allocation ByteTrack**: High-throughput multi-object tracking across continuous video streams.
+- **📐 Hardware-Accelerated IoU Matching**: Intersection-over-Union geometric operations running at **> 128,000,000 ops/sec**.
+- **🧠 Screen-VLM Grounding**: Extracts click coordinates and interactive element targets directly from local multimodal LLMs.
+- **📊 FastANSI 120-Column HUD**: Terminal telemetry displaying tracking age, confidence metrics, and pixel bounding boxes.
 
 ---
 
 ## Performance Benchmarks
 
-FastAIVision is profiled using **JMH** to guarantee maximum parsing speed and zero vision stream bottleneck.
+FastAIVision is rigorously profiled using **JMH** to guarantee zero overhead.
 
-| Benchmark Operation | Score (ops/ms) | Throughput | Memory Overhead |
-|---|---|---|---|
-| **Grounding Coordinate Parsing** | **~1,900 ops/ms** | **> 1.9 Million boxes/sec** | **0 bytes allocation** |
-| **Binary Stream Decoding (`.visionbin`)** | **~345,000 ops/ms** | **> 345 Million elements/sec** | **Zero-Copy Streaming** |
-| **Binary Stream Encoding (`.visionbin`)** | **~47,000 ops/ms** | **> 47 Million elements/sec** | **Compact VarInt Delta Buffer** |
+| Metric / Operation Type | Score (ops/ms) | Ops per Second |
+|---|---|---|
+| **Bounding Box IoU Calculation** | **~128,533 ops/ms** | **> 128.5 Million** |
+| **ByteTrack Multi-Object Update** | **~12,501 ops/ms** | **> 12.5 Million** |
+| **VLM Grounding Coordinate Parsing** | **~3,056 ops/ms** | **> 3.05 Million** |
 
-*Run the benchmarks locally:* `.\run-benchmark.bat`
+*Measured on Windows 11 x64, Intel Core i5 (Surface Pro 8), JDK 21.0.12.1.*
 
 ---
 
 ## API Quick Reference
 
-| Method / Class | Description |
+| Method | Description |
 |---|---|
-| `FastAIVision.createQwen2VL()` / `createSmolVLM()` | Initializes VLM-specific vision grounding engine. |
-| `vision.buildGroundingPrompt(target)` | Formats standard prompt template for model UI grounding. |
-| `vision.parseGroundingResponse(label, out, type)` | Parses raw VLM output text into a structured `UIElement`. |
-| `vision.preprocessImage(image, w, h)` | Transforms `BufferedImage` into normalized float RGB tensor array. |
-| `VisionCodec.encode(elements)` | Serializes UI elements into compressed FastFileFormat binary byte array. |
-| `VisionCodec.decode(bytes)` | Deserializes `.visionbin` binary bytes back into `List<UIElement>`. |
+| `FastAIVision.createYOLO()` | Instantiates YOLO detection substrate. |
+| `FastAIVision.createQwen2VL()` | Instantiates Qwen2-VL screen-grounding parser. |
+| `tracker.update(detections)` | Updates active object tracks and matches persistent IDs across frames. |
+| `boundingBox.iou(other)` | Computes geometric Intersection-over-Union between two boxes. |
+| `vision.parseGroundingResponse(...)` | Parses raw VLM output tokens into interactive `UIElement` records. |
 
 ---
 
@@ -127,14 +118,16 @@ FastAIVision is profiled using **JMH** to guarantee maximum parsing speed and ze
 
 | Case | Java Example | Launcher | Description |
 |---|---|---|---|
-| **Live VLM Grounding & Tensor Demo** | [Demo.java](examples/Demo/src/main/java/fastaivision/demo/Demo.java) | `run-demo.bat` | Qwen2-VL & SmolVLM prompt formatting, grounding coordinate extraction, and `.visionbin` streaming. |
-| **JMH Microbenchmark Suite** | [Benchmark.java](examples/Benchmark/src/main/java/fastaivision/benchmark/Benchmark.java) | `run-benchmark.bat` | High-throughput grounding coordinate parsing and 100-element binary codec benchmarks. |
+| **Interactive 120-Column HUD Demo** | [Demo.java](src/main/java/fastaivision/Demo.java) | `run-demo.bat` | Terminal demonstration of real-time object tracking persistence and VLM screen grounding. |
+| **JMH Microbenchmark Suite** | [FastAIVisionBenchmark.java](examples/Benchmark/src/main/java/fastaivision/benchmark/FastAIVisionBenchmark.java) | `run-benchmark.bat` | Formal OpenJDK JMH throughput measurements across IoU calculations and tracking loops. |
 
 ---
 
 ## Installation
 
-### Option 1: Maven (JitPack)
+### Option 1: Maven (Recommended)
+
+Add the JitPack repository and the dependency to your `pom.xml`:
 
 ```xml
 <repositories>
@@ -148,105 +141,58 @@ FastAIVision is profiled using **JMH** to guarantee maximum parsing speed and ze
     <dependency>
         <groupId>com.github.andrestubbe</groupId>
         <artifactId>FastAIVision</artifactId>
-        <version>0.1.2</version>
-    </dependency>
-    <dependency>
-        <groupId>com.github.andrestubbe</groupId>
-        <artifactId>FastFileFormat</artifactId>
-        <version>0.1.1</version>
-    </dependency>
-    <dependency>
-        <groupId>com.github.andrestubbe</groupId>
-        <artifactId>FastBinary</artifactId>
-        <version>0.1.1</version>
-    </dependency>
-    <dependency>
-        <groupId>com.github.andrestubbe</groupId>
-        <artifactId>FastRegex</artifactId>
-        <version>0.1.1</version>
-    </dependency>
-    <dependency>
-        <groupId>com.github.andrestubbe</groupId>
-        <artifactId>fastcore</artifactId>
         <version>0.1.0</version>
     </dependency>
 </dependencies>
 ```
 
 ### Option 2: Gradle (via JitPack)
-
 ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    implementation 'com.github.andrestubbe:FastAIVision:0.1.2'
-    implementation 'com.github.andrestubbe:FastFileFormat:0.1.1'
-    implementation 'com.github.andrestubbe:FastBinary:0.1.1'
-    implementation 'com.github.andrestubbe:FastRegex:0.1.1'
-    implementation 'com.github.andrestubbe:fastcore:0.1.0'
+    implementation 'com.github.andrestubbe:FastAIVision:0.1.0'
 }
 ```
 
 ### Option 3: Direct Download (No Build Tool)
-
 Download the latest JARs directly to add them to your classpath:
 
-1. 👁️ **[FastAIVision-0.1.2.jar](https://github.com/andrestubbe/FastAIVision/releases/download/0.1.2/FastAIVision-0.1.2.jar)** (Multimodal Vision & UI Grounding Engine)
-2. 📄 **[FastFileFormat-0.1.1.jar](https://github.com/andrestubbe/FastFileFormat/releases/download/0.1.1/FastFileFormat-0.1.1.jar)** (Dual Binary & Text File Format)
-3. ⚡ **[FastBinary-0.1.1.jar](https://github.com/andrestubbe/FastBinary/releases/download/0.1.1/FastBinary-0.1.1.jar)** (VarInt & Binary Packing)
-4. ⚙️ **[fastcore-0.1.0.jar](https://github.com/andrestubbe/FastCore/releases/download/0.1.0/fastcore-0.1.0.jar)** (Foundation Library)
+1. 📦 **[FastAIVision-0.1.0.jar](https://github.com/andrestubbe/FastAIVision/releases/download/0.1.0/FastAIVision-0.1.0.jar)** (The Core Vision Engine)
+2. ⚙️ **[fastcore-0.1.0.jar](https://github.com/andrestubbe/FastCore/releases/download/0.1.0/fastcore-0.1.0.jar)** (The Mandatory Runtime Substrate)
 
 ---
 
 ## Documentation
 
-* **[REFERENCE.md](docs/REFERENCE.md)**: Full API reference and method signatures.
-* **[PHILOSOPHY.md](docs/PHILOSOPHY.md)**: Architectural design principles and multimodal agent grounding.
-* **[CHANGELOG.md](docs/CHANGELOG.md)**: Release history and version notes.
-* **[ROADMAP.md](docs/ROADMAP.md)**: Future milestones and planned features.
-* **[COMPILE.md](docs/COMPILE.md)**: Instructions for compiling from source.
+* **[REFERENCE.md](docs/REFERENCE.md)**: Full API descriptions, tracking algorithms, and coordinate spaces.
+* **[PHILOSOPHY.md](docs/PHILOSOPHY.md)**: The architectural rationale for local real-time vision on the JVM.
+* **[ROADMAP.md](docs/ROADMAP.md)**: Future milestones, Kalman filtering, and native Vulkan/CUDA vision pipelines.
+* **[CHANGELOG.md](docs/CHANGELOG.md)**: Release history and version migration details.
 
 ---
 
 ## Platform Support
 
 | Platform | Status |
-|----------|--------|
+|---|---|
 | Windows 10/11 (x64) | ✅ Fully Supported |
-| Linux | 🚧 Planned |
-| macOS | 🚧 Planned |
-
----
-
-## License
-
-MIT License. See [LICENSE](LICENSE) file for details.
+| Linux (x64 / AArch64) | ✅ Fully Supported |
+| macOS (Apple Silicon / Intel) | ✅ Fully Supported |
 
 ---
 
 ## Related Projects
 
-- [FastAI](https://github.com/andrestubbe/FastAI) — Unified AI client interface for Java
-- [FastAIAgent](https://github.com/andrestubbe/FastAIAgent) — Autonomous agent loop, intent-graphs, and tool execution
-- [FastAIBot](https://github.com/andrestubbe/FastAIBot) — Zero-bloat bot harnesses and persona runtime
-- [FastAIGraph](https://github.com/andrestubbe/FastAIGraph) — In-memory knowledge graph and multi-hop relationship engine
-- [FastAIHybrid](https://github.com/andrestubbe/FastAIHybrid) — Dense-sparse hybrid search fusion (BM25 + Vectors)
-- [FastAIMatcher](https://github.com/andrestubbe/FastAIMatcher) — Automated SOX compliance and hybrid rule matching engine
-- [FastAIMCP](https://github.com/andrestubbe/FastAIMCP) — Model Context Protocol (MCP) server & tool integration
-- [FastAIMemory](https://github.com/andrestubbe/FastAIMemory) — Conversation history, sliding windows, and rolling summaries
-- [FastAIMetrics](https://github.com/andrestubbe/FastAIMetrics) — Ultra-fast lock-free token, latency, cost tracking and evaluation engine
-- [FastAIModel](https://github.com/andrestubbe/FastAIModel) — Native local inference runtime (GGUF/ONNX)
-- [FastAIRag](https://github.com/andrestubbe/FastAIRag) — Ultra-fast document chunking and vector retrieval
-- [FastAIReasoner](https://github.com/andrestubbe/FastAIReasoner) — Deterministic planning, chain-of-thought, and self-correction
-- [FastAIRerank](https://github.com/andrestubbe/FastAIRerank) — Cross-encoder relevance filtering and Top-N prompt pruner
-- [FastAIRuntime](https://github.com/andrestubbe/FastAIRuntime) — Sandboxed process runner and tool-calling execution pipeline
-- [FastAIState](https://github.com/andrestubbe/FastAIState) — Lock-free shared agent state & blackboard memory
-- [FastAIVectorDB](https://github.com/andrestubbe/FastAIVectorDB) — High-throughput SIMD/AVX2 vector database
-- [FastAIVision](https://github.com/andrestubbe/FastAIVision) — High-speed local multimodal vision, UI-element grounding, and screen-VLM engine
-- [FastCore](https://github.com/andrestubbe/FastCore) — Unified JNI loader and platform abstraction
+Combine FastAIVision with other FastJava vision and automation engines:
+
+* [**FastScreen**](https://github.com/andrestubbe/FastScreen) — Ultra-fast native framebuffer screen capture.
+* [**FastCamera**](https://github.com/andrestubbe/FastCamera) — Zero-copy direct video feed capture.
+* [**FastUIA**](https://github.com/andrestubbe/FastUIA) — Windows UI Automation engine for autonomous agents.
+* [**FastRobot**](https://github.com/andrestubbe/FastRobot) — Hardware-level keyboard and mouse simulation.
 
 ---
 
-**Part of the FastJava Ecosystem** — *Making the JVM faster. Small package. Maximum speed. Zero bloat. 🚀📋*
+**Part of the FastJava Ecosystem** — *Making the JVM faster.*

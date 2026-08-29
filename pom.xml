@@ -1,31 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.andrestubbe</groupId>
     <artifactId>FastAIVision</artifactId>
-    <version>0.1.2</version>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
 
     <name>FastAIVision</name>
-    <description>High-Speed Local Multimodal Vision, UI-Element Grounding and Screen-VLM Engine for Java</description>
+    <description>Multimodal Vision, Real-Time YOLO/RF-DETR Object Detection, ByteTrack Tracking and Screen-VLM Grounding Engine for Java</description>
     <url>https://github.com/andrestubbe/FastAIVision</url>
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.10.0</junit.version>
-    </properties>
 
     <licenses>
         <license>
             <name>MIT License</name>
             <url>https://opensource.org/licenses/MIT</url>
-            <distribution>repo</distribution>
         </license>
     </licenses>
 
@@ -37,11 +28,12 @@
         </developer>
     </developers>
 
-    <scm>
-        <connection>scm:git:git://github.com/andrestubbe/FastAIVision.git</connection>
-        <developerConnection>scm:git:ssh://github.com:andrestubbe/FastAIVision.git</developerConnection>
-        <url>https://github.com/andrestubbe/FastAIVision</url>
-    </scm>
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.10.0</junit.version>
+    </properties>
 
     <repositories>
         <repository>
@@ -54,41 +46,23 @@
         <!-- FastCore -->
         <dependency>
             <groupId>com.github.andrestubbe</groupId>
-            <artifactId>fastcore</artifactId>
+            <artifactId>FastCore</artifactId>
             <version>0.1.0</version>
+            <optional>true</optional>
         </dependency>
 
-        <!-- FastBinary -->
+        <!-- FastAIModel ONNX Engine Substrate -->
         <dependency>
-            <groupId>com.github.andrestubbe</groupId>
-            <artifactId>FastBinary</artifactId>
-            <version>0.1.1</version>
+            <groupId>com.github.andrestubbe.FastAIModel</groupId>
+            <artifactId>fastaimodel-onnx</artifactId>
+            <version>0.1.4</version>
+            <optional>true</optional>
         </dependency>
 
-        <!-- FastFileFormat -->
-        <dependency>
-            <groupId>com.github.andrestubbe</groupId>
-            <artifactId>FastFileFormat</artifactId>
-            <version>0.1.1</version>
-        </dependency>
-
-        <!-- FastRegex -->
-        <dependency>
-            <groupId>com.github.andrestubbe</groupId>
-            <artifactId>FastRegex</artifactId>
-            <version>0.1.1</version>
-        </dependency>
-
-        <!-- Testing -->
+        <!-- JUnit 5 Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
+            <artifactId>junit-jupiter</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
@@ -104,37 +78,6 @@
                     <source>17</source>
                     <target>17</target>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.0</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.5.0</version>
-                <configuration>
-                    <doclint>none</doclint>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

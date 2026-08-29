@@ -1,13 +1,7 @@
 # FastAIVision Roadmap
 
-## Milestones
-
-### Version 0.1.0 (Current)
-- [x] Qwen2-VL-2B and SmolVLM-2B grounding prompt templates.
-- [x] Sub-millisecond bounding box coordinate parsers.
-- [x] FastFileFormat `.visionbin` binary streaming.
-- [x] JMH microbenchmarks & interactive console demo.
-
-### Version 0.2.0 (Planned)
-- [ ] Direct JNI DirectML execution bridge into `FastAIModel`.
-- [ ] Zero-copy Direct3D11 / Desktop Duplication frame feeding from `FastScreen`.
+- [x] Real-time YOLO / RF-DETR bounding box detection substrate.
+- [x] Zero-allocation ByteTrack IoU multi-object tracking.
+- [x] Multimodal Qwen2-VL & SmolVLM screen grounding parser.
+- [ ] 2D Kalman filter velocity and motion trajectory predictors.
+- [ ] Segment Anything (SAM-2) instance segmentation masks.

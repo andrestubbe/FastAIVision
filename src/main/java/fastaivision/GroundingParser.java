@@ -1,7 +1,7 @@
 package fastaivision;
 
-import fastregex.FastRegex;
-import fastregex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Standard parser for VLM bounding box coordinates output by Qwen2-VL, SmolVLM, and UI-Grounding models.
@@ -9,10 +9,8 @@ import fastregex.MatchResult;
  */
 public final class GroundingParser {
 
-    private static final FastRegex BOX_1000_REGEX = FastRegex.compile("\\[\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*\\]");
-    private static final FastRegex XML_BOX_REGEX = FastRegex.compile("<box>\\((\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\)</box>");
-
-    private static final ThreadLocal<MatchResult> MATCH_RESULT_HOLDER = ThreadLocal.withInitial(MatchResult::new);
+    private static final Pattern BOX_1000_REGEX = Pattern.compile("\\[\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*\\]");
+    private static final Pattern XML_BOX_REGEX = Pattern.compile("<box>\\((\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\)</box>");
 
     private GroundingParser() {}
 
@@ -28,28 +26,28 @@ public final class GroundingParser {
     }
 
     /**
-     * Extracts bounding box from raw VLM textual output string using zero-allocation FastRegex.
+     * Extracts bounding box from raw VLM textual output string.
      */
     public static BoundingBox extractFirstBoundingBox(String vlmOutput) {
         if (vlmOutput == null || vlmOutput.isEmpty()) {
             return null;
         }
 
-        MatchResult result = MATCH_RESULT_HOLDER.get();
-
-        if (BOX_1000_REGEX.find(vlmOutput, result)) {
-            int ymin = result.parseGroupAsInt(vlmOutput, 1);
-            int xmin = result.parseGroupAsInt(vlmOutput, 2);
-            int ymax = result.parseGroupAsInt(vlmOutput, 3);
-            int xmax = result.parseGroupAsInt(vlmOutput, 4);
+        Matcher m1 = BOX_1000_REGEX.matcher(vlmOutput);
+        if (m1.find()) {
+            int ymin = Integer.parseInt(m1.group(1));
+            int xmin = Integer.parseInt(m1.group(2));
+            int ymax = Integer.parseInt(m1.group(3));
+            int xmax = Integer.parseInt(m1.group(4));
             return parseFrom1000Scale(ymin, xmin, ymax, xmax);
         }
 
-        if (XML_BOX_REGEX.find(vlmOutput, result)) {
-            int ymin = result.parseGroupAsInt(vlmOutput, 1);
-            int xmin = result.parseGroupAsInt(vlmOutput, 2);
-            int ymax = result.parseGroupAsInt(vlmOutput, 3);
-            int xmax = result.parseGroupAsInt(vlmOutput, 4);
+        Matcher m2 = XML_BOX_REGEX.matcher(vlmOutput);
+        if (m2.find()) {
+            int ymin = Integer.parseInt(m2.group(1));
+            int xmin = Integer.parseInt(m2.group(2));
+            int ymax = Integer.parseInt(m2.group(3));
+            int xmax = Integer.parseInt(m2.group(4));
             return parseFrom1000Scale(ymin, xmin, ymax, xmax);
         }
 
