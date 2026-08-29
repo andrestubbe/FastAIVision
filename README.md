@@ -127,7 +127,7 @@ FastAIVision is rigorously profiled using **JMH** to guarantee zero overhead.
 
 ### Option 1: Maven (Recommended)
 
-Add the JitPack repository and the dependency to your `pom.xml`:
+Add the JitPack repository and the dependencies to your `pom.xml`:
 
 ```xml
 <repositories>
@@ -138,10 +138,18 @@ Add the JitPack repository and the dependency to your `pom.xml`:
 </repositories>
 
 <dependencies>
+    <!-- FastAIVision Core -->
     <dependency>
         <groupId>com.github.andrestubbe</groupId>
         <artifactId>FastAIVision</artifactId>
         <version>0.1.0</version>
+    </dependency>
+
+    <!-- FastAIModel ONNX Execution Substrate -->
+    <dependency>
+        <groupId>com.github.andrestubbe.FastAIModel</groupId>
+        <artifactId>fastaimodel-onnx</artifactId>
+        <version>0.1.4</version>
     </dependency>
 </dependencies>
 ```
@@ -154,6 +162,7 @@ repositories {
 
 dependencies {
     implementation 'com.github.andrestubbe:FastAIVision:0.1.0'
+    implementation 'com.github.andrestubbe.FastAIModel:fastaimodel-onnx:0.1.4'
 }
 ```
 
@@ -161,7 +170,8 @@ dependencies {
 Download the latest JARs directly to add them to your classpath:
 
 1. 📦 **[FastAIVision-0.1.0.jar](https://github.com/andrestubbe/FastAIVision/releases/download/0.1.0/FastAIVision-0.1.0.jar)** (The Core Vision Engine)
-2. ⚙️ **[fastcore-0.1.0.jar](https://github.com/andrestubbe/FastCore/releases/download/0.1.0/fastcore-0.1.0.jar)** (The Mandatory Runtime Substrate)
+2. 🤖 **[fastaimodel-onnx-0.1.4.jar](https://github.com/andrestubbe/FastAIModel/releases/download/0.1.4/fastaimodel-onnx-0.1.4.jar)** (The ONNX Neural Inference Substrate)
+3. ⚙️ **[fastcore-0.1.0.jar](https://github.com/andrestubbe/FastCore/releases/download/0.1.0/fastcore-0.1.0.jar)** (The Mandatory Runtime Substrate)
 
 ### 🧠 Neural Model Weights & Downloads
 
