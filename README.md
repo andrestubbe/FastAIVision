@@ -163,6 +163,17 @@ Download the latest JARs directly to add them to your classpath:
 1. 📦 **[FastAIVision-0.1.0.jar](https://github.com/andrestubbe/FastAIVision/releases/download/0.1.0/FastAIVision-0.1.0.jar)** (The Core Vision Engine)
 2. ⚙️ **[fastcore-0.1.0.jar](https://github.com/andrestubbe/FastCore/releases/download/0.1.0/fastcore-0.1.0.jar)** (The Mandatory Runtime Substrate)
 
+### 🧠 Neural Model Weights & Downloads
+
+FastAIVision executes standard ONNX detection models and GGUF multimodal VLMs:
+
+| Model Type | Recommended Checkpoint | Format | Purpose | Upstream Link |
+|---|---|---|---|---|
+| **Real-Time Detection** | `yolov8n.onnx` / `yolov11n.onnx` | ONNX (~6 MB) | <5ms Object & UI Bounding Boxes | [Ultralytics YOLO Releases](https://github.com/ultralytics/assets/releases) |
+| **Real-Time DETR** | `rf-detr-nano.onnx` | ONNX (~12 MB) | Transformer Object Detection | [RF-DETR ONNX Hub](https://huggingface.co/models?search=rf-detr) |
+| **Screen VLM Grounding** | `Qwen2-VL-7B-Instruct` | GGUF / ONNX | Complex Screen Coordinate Grounding | [Qwen2-VL on HuggingFace](https://huggingface.co/Qwen/Qwen2-VL-7B-Instruct) |
+| **Lightweight VLM** | `SmolVLM-500M-Instruct` | GGUF / ONNX | Fast Edge Multimodal Grounding | [HuggingFaceTB/SmolVLM-500M](https://huggingface.co/HuggingFaceTB/SmolVLM-500M-Instruct) |
+
 ---
 
 ## Documentation
