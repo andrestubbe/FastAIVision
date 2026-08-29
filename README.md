@@ -1,10 +1,10 @@
-# FastAIVision 0.1.0 [ALPHA] — Real-Time Multimodal Vision, YOLO Detection, ByteTrack & Screen-VLM Grounding for Java
+# FastAIVision 0.1.1 [ALPHA] — Real-Time Multimodal Vision, YOLO Detection, ByteTrack & Screen-VLM Grounding for Java
 
-[![Status](https://img.shields.io/badge/status-0.1.0-brightgreen.svg)](https://github.com/andrestubbe/FastAIVision/releases/tag/0.1.0)
+[![Status](https://img.shields.io/badge/status-0.1.1-brightgreen.svg)](https://github.com/andrestubbe/FastAIVision/releases/tag/0.1.1)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Java](https://img.shields.io/badge/Java-17+-blue.svg)](https://www.java.com)
 [![Platform](https://img.shields.io/badge/Platform-Cross--Platform-lightgrey.svg)]()
-[![JitPack](https://img.shields.io/badge/JitPack-ready-green.svg)](https://jitpack.io/#andrestubbe/FastAIVision)
+[![JitPack](https://img.shields.io/badge/JitPack-0.1.1-green.svg)](https://jitpack.io/#andrestubbe/FastAIVision)
 
 ---
 
@@ -142,7 +142,7 @@ Add the JitPack repository and the dependencies to your `pom.xml`:
     <dependency>
         <groupId>com.github.andrestubbe</groupId>
         <artifactId>FastAIVision</artifactId>
-        <version>0.1.0</version>
+        <version>0.1.1</version>
     </dependency>
 
     <!-- FastAIModel ONNX Execution Substrate -->
@@ -161,7 +161,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.andrestubbe:FastAIVision:0.1.0'
+    implementation 'com.github.andrestubbe:FastAIVision:0.1.1'
     implementation 'com.github.andrestubbe.FastAIModel:fastaimodel-onnx:0.1.4'
 }
 ```
@@ -169,7 +169,7 @@ dependencies {
 ### Option 3: Direct Download (No Build Tool)
 Download the latest JARs directly to add them to your classpath:
 
-1. 📦 **[FastAIVision-0.1.0.jar](https://github.com/andrestubbe/FastAIVision/releases/download/0.1.0/FastAIVision-0.1.0.jar)** (The Core Vision Engine)
+1. 📦 **[FastAIVision-0.1.1.jar](https://github.com/andrestubbe/FastAIVision/releases/download/0.1.1/FastAIVision-0.1.1.jar)** (The Core Vision Engine)
 2. 🤖 **[fastaimodel-onnx-0.1.4.jar](https://github.com/andrestubbe/FastAIModel/releases/download/0.1.4/fastaimodel-onnx-0.1.4.jar)** (The ONNX Neural Inference Substrate)
 3. ⚙️ **[fastcore-0.1.0.jar](https://github.com/andrestubbe/FastCore/releases/download/0.1.0/fastcore-0.1.0.jar)** (The Mandatory Runtime Substrate)
 
