@@ -1,3 +1,6 @@
+> [!WARNING]
+> **🚧 WIP — Active AI Pipeline Construction & Architecture Optimization in Progress.**
+
 # FastAIVision 0.1.1 [ALPHA] — Real-Time Multimodal Vision, YOLO Detection, ByteTrack & Screen-VLM Grounding for Java
 
 [![Status](https://img.shields.io/badge/status-0.1.1-brightgreen.svg)](https://github.com/andrestubbe/FastAIVision/releases/tag/0.1.1)
